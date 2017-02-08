@@ -10,7 +10,7 @@ def load_passband(fname):
 
     info = {}
     info['fname'] = os.path.basename(fname)
-    info['atms'] = struct['content']
+    info['atms'] = struct['atmlist']
 
     return struct['pbset']+':'+struct['pbname'], info
 
