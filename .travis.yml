@@ -2,40 +2,10 @@
 
 language: none
 
-addons:
-  apt:
-    sources:
-    # add PPAs with more up-to-date toolchains
-    - ubuntu-toolchain-r-test
-    - llvm-toolchain-precise-3.6
-    packages:
-    - gfortran
-    - g++-5
-    - gcc-5
-    - clang-3.6
-    - libstdc++-5-dev
-
-sudo: required
-dist: trusty
-
 env:
     global:
         # Set defaults to avoid repeating in most cases
-        - CONDA_DEPENDENCIES='scipy matplotlib sympy'
         - PYTHON_VERSION='2.7'
-        - NUMPY_VERSION='1.10'
-        - ASTROPY_VERSION='1.0'
-
-
-install:
-    - git clone git://github.com/astropy/ci-helpers.git
-    - source ci-helpers/travis/setup_conda.sh
-    - git clone -b development git://github.com/phoebe-project/phoebe2.git
-    - git clone git://github.com/phoebe-project/phoebe2-tables.git
-    - cd phoebe2
-    - python setup.py build
-    - python setup.py install --user
-    - cd ..
 
 script:
     - cd phoebe2-tables/passbands
