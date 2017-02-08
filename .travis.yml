@@ -12,5 +12,7 @@ script:
     - python update_list.py
 
 after_success:
+    - git add list_online_passbands
+    - git add list_online_passbands_full
     - git -c user.name='travis' -c user.email='travis' commit -m "updating list_online_passbands [ci skip]"
     - git push -q -f https://kecnry:$GITHUB_API_KEY@github.com/phoebe-project/phoebe2-tables master
