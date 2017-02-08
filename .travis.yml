@@ -1,0 +1,16 @@
+# https://travis-ci.org/phoebe-project/phoebe2-tables
+
+language: none
+
+env:
+    global:
+        # Set defaults to avoid repeating in most cases
+        - PYTHON_VERSION='2.7'
+
+script:
+    - cd passbands
+    - python update_list.py
+
+after_success:
+    - git -c user.name='travis' user.email='travis' commit -m "updating list_online_passbands [ci skip]"
+    - git push -q -f https://kecnry:$GITHUB_API_KEY@github.com/phoebe-project/phoebe2-tables master
