@@ -8,7 +8,7 @@ env:
         - PYTHON_VERSION='2.7'
 
 script:
-    - cd phoebe2-tables/passbands
+    - cd phoebe-project/phoebe2-tables/passbands
     - python update_list.py
 
 after_success:
