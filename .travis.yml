@@ -1,4 +1,4 @@
-# https://travis-ci.org/phoebe-project/phoebe2
+# https://travis-ci.org/phoebe-project/phoebe2-tables
 
 language: none
 
@@ -22,6 +22,9 @@ env:
     global:
         # Set defaults to avoid repeating in most cases
         - CONDA_DEPENDENCIES='scipy matplotlib sympy'
+        - PYTHON_VERSION='2.7'
+        - NUMPY_VERSION='1.10'
+        - ASTROPY_VERSION='1.0'
 
 
 install:
