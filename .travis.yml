@@ -8,6 +8,8 @@ env:
         - PYTHON_VERSION='2.7'
 
 script:
+    - ls
+    - pwd
     - cd phoebe-project/phoebe2-tables/passbands
     - python update_list.py
 
