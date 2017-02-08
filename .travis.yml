@@ -1,0 +1,43 @@
+# https://travis-ci.org/phoebe-project/phoebe2
+
+language: none
+
+addons:
+  apt:
+    sources:
+    # add PPAs with more up-to-date toolchains
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.6
+    packages:
+    - gfortran
+    - g++-5
+    - gcc-5
+    - clang-3.6
+    - libstdc++-5-dev
+
+sudo: required
+dist: trusty
+
+env:
+    global:
+        # Set defaults to avoid repeating in most cases
+        - CONDA_DEPENDENCIES='scipy matplotlib sympy'
+
+
+install:
+    - git clone git://github.com/astropy/ci-helpers.git
+    - source ci-helpers/travis/setup_conda.sh
+    - git clone git://github.com/phoebe-project/phoebe2.git
+    - git clone git://github.com/phoebe-project/phoebe2-tables.git
+    - cd phoebe2
+    - python setup.py build
+    - python setup.py install --user
+    - cd ..
+
+script:
+    - cd phoebe2-tables/passbands
+    - python update_list.py
+
+after_success:
+    - git -c user.name='travis' user.email='travis' commit -m "updating list_online_passbands"
+    - git push -q -f https://kecnry:$GITHUB_API_KEY@github.com/phoebe-project/phoebe2-tables master
