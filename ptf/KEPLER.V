@@ -2,7 +2,7 @@
 # Kepler Instrument Handbook. After Bachtell & Peters (2008)
 #
 # avg in band transmission: 57.21%
-# lambda (nm) and Spectral Response
+# lambda (angstrom) and Spectral Response
 #LAMBDA   RESP   
 3480.0   0.000112108487806   
 3490.0   0.000150826988157   
