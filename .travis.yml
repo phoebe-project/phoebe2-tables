@@ -1,18 +1,35 @@
-# https://travis-ci.org/phoebe-project/phoebe2-tables
+# https://travis-ci.com/phoebe-project/phoebe2-tables
 
-language: none
+# NOTE: because we checkout the branch, we may not be at this EXACT commit,
+# but rather at the latest.  So re-running a travis build on and old commit
+# will still update using the latest sources in the branch.  This shouldn't
+# be a problem - we have the builds set to autocancel if a new push occurs
+# anyways.
 
-env:
-    global:
-        # Set defaults to avoid repeating in most cases
-        - PYTHON_VERSION='2.7'
+language: python
 
-script:
-    - cd passbands
-    - python update_list.py
+os: linux
+dist: trusty
 
-after_success:
-    - git add list_online_passbands
-    - git add list_online_passbands_full
-    - git -c user.name='travis' -c user.email='travis' commit -m "updating list_online_passbands [ci skip]"
-    - git push -q -f https://kecnry:$GITHUB_API_KEY@github.com/phoebe-project/phoebe2-tables master
+matrix:
+  include:
+    # run on both python 2 & python 3
+    - os: linux
+      env: PYTHON_VERSION=2.7
+
+    - os: linux
+      env: PYTHON_VERSION=3.6
+
+
+
+script: |
+  if [ "$TRAVIS_COMMIT_MESSAGE" != "TRAVIS: updating passband lists" ] && [ -n $GITHUB_API_KEY ]; then
+    git checkout $TRAVIS_BRANCH
+    git remote rm origin
+    git remote add origin https://kecnry:${GITHUB_API_KEY}@github.com/phoebe-project/phoebe2-tables.git > /dev/null 2>&1
+    git -c user.name='travis' -c user.email='travis'
+    cd passbands
+    python update_list.py
+    git commit -m 'TRAVIS: updating passband lists'
+    git push -q -f origin $TRAVIS_BRANCH > /dev/null 2>&1
+  fi
