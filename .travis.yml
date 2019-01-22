@@ -29,6 +29,11 @@ script: |
     git remote add origin https://kecnry:${GITHUB_API_KEY}@github.com/phoebe-project/phoebe2-tables.git > /dev/null 2>&1
     git -c user.name='travis' -c user.email='travis'
     cd passbands
+    if [ "$PYTHON_VERSION" == "3.6" ]; then
+      python3 update_list.py;
+    else
+      python update_list.py;
+    fi
     python update_list.py
     git commit -m 'TRAVIS: updating passband lists'
     git push -q -f origin $TRAVIS_BRANCH > /dev/null 2>&1
