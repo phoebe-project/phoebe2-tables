@@ -25,7 +25,7 @@ def load_passband(fname):
 
 pbtable = {}
 
-for fname in glob('./*pb' if sys.version_info[0] < 3 else './*pb3'):
+for fname in glob('./*.pb' if sys.version_info[0] < 3 else './*.pb3'):
    print("loading {}...".format(fname))
    key, info = load_passband(fname)
    pbtable[key] = info
