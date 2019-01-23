@@ -14,7 +14,7 @@ for legacy_pb in glob.glob('*.pb'):
 
     # Save as a protocol-3 pickle:
     with open(legacy_pb+'3', 'wb') as f:
-        pickle.dump(pb, f)
+        pickle.dump(pb, f, protocol=3)
 
     # Delete the conv file:
     os.remove(legacy_pb+'.pkl2')
