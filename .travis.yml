@@ -29,7 +29,7 @@ script: |
     git -c user.name='travis' -c user.email='travis'
     cd passbands
     if [ "$PYTHON_VERSION" == "3.6" ]; then
-      pip3 install numpy;
+      pip3.6 install numpy;
       python3 update_list.py;
     else
       pip install numpy;
