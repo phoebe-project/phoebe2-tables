@@ -7,18 +7,13 @@
 # anyways.
 
 language: python
+language: python
+python:
+  - "2.7"
+  - "3.6"
 
 os: linux
 dist: trusty
-
-matrix:
-  include:
-    # run on both python 2 & python 3
-    - os: linux
-      env: PYTHON_VERSION=2.7
-
-    - os: linux
-      env: PYTHON_VERSION=3.6
 
 
 script: |
@@ -28,13 +23,8 @@ script: |
     git remote add origin https://kecnry:${GITHUB_API_KEY}@github.com/phoebe-project/phoebe2-tables.git > /dev/null 2>&1
     git -c user.name='travis' -c user.email='travis'
     cd passbands
-    if [ "$PYTHON_VERSION" == "3.6" ]; then
-      pip3.6 install numpy;
-      python3 update_list.py;
-    else
-      pip install numpy;
-      python update_list.py;
-    fi
+    pip install numpy;
+    python update_list.py;
     git commit -a -m 'TRAVIS: updating passband lists'
     git push -q -f origin $TRAVIS_BRANCH > /dev/null 2>&1
   fi
