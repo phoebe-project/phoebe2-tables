@@ -21,7 +21,7 @@ matrix:
       env: PYTHON_VERSION=3.6
 
 
-install: pip install --user numpy
+install: pip install numpy
 
 script: |
   if [ "$TRAVIS_COMMIT_MESSAGE" != "TRAVIS: updating passband lists" ] && [ -n $GITHUB_API_KEY ]; then
