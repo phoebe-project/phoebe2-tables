@@ -19,7 +19,7 @@ def load_passband(fname):
 
 pbtable = {}
 
-for fname in glob('./*.fits'):
+for fname in glob('./*.fits*'):
    print("loading {}...".format(fname))
    key, info = load_passband(fname)
    pbtable[key] = info
