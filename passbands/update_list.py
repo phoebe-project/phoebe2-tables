@@ -2,39 +2,29 @@ import json
 import os
 import sys
 from glob import glob
-import marshal
-import pickle
-
-"""
-should be run separately under python2 (will create list_online_passbands_full) and python3 (will create list_online_passbands_full_pb3)
-"""
+from astropy.io import fits
 
 def load_passband(fname):
-    with open(fname, 'rb') as f:
-        if sys.version_info[0] < 3:
-            struct = marshal.load(f)
-        else:
-            struct = pickle.load(f)
+    with fits.open(fname) as f:
+        header = f['primary'].header
 
-    info = {}
-    info['fname'] = os.path.basename(fname)
-    info['atms'] = struct['atmlist']
-    info['timestamp'] = struct.get('timestamp', None)
+        info = {}
+        info['fname'] = os.path.basename(fname)
+        info['atms'] = eval(header['atmlist'], {'__builtins__':None}, {})
+        info['timestamp'] = header['timestmp']
 
-    return struct['pbset']+':'+struct['pbname'], info
+        pbname = header['pbset']+':'+header['pbname']
+
+    return pbname, info
 
 pbtable = {}
 
-for fname in glob('./*.pb' if sys.version_info[0] < 3 else './*.pb3'):
+for fname in glob('./*.fits*'):
    print("loading {}...".format(fname))
    key, info = load_passband(fname)
    pbtable[key] = info
 
-# dump dictionary for Python 2 or 3
-if sys.version_info[0] < 3:
-    fname = 'list_online_passbands_full'
-else:
-    fname = 'list_online_passbands_full_pb3'
+fname = 'list_online_passbands_full_fits'
 
 print("writing to {}".format(fname))
 with open(fname, 'w') as f:
